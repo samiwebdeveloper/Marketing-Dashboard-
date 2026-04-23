@@ -1,0 +1,96 @@
+{
+  "platforms": [
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "logo": "📺",
+      "color": "#CC0000",
+      "enabled": true,
+      "metrics": [
+        "views",
+        "watch_time",
+        "subscribers",
+        "engagement_rate",
+        "ctr",
+        "impressions"
+      ]
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "logo": "🎵",
+      "color": "#000000",
+      "enabled": true,
+      "metrics": [
+        "views",
+        "likes",
+        "shares",
+        "followers",
+        "engagement_rate",
+        "video_plays"
+      ]
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "logo": "📷",
+      "color": "#E1306C",
+      "enabled": true,
+      "metrics": [
+        "reach",
+        "impressions",
+        "engagement_rate",
+        "followers",
+        "saves",
+        "comments"
+      ]
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "logo": "👥",
+      "color": "#1877F2",
+      "enabled": true,
+      "metrics": [
+        "reach",
+        "engagement",
+        "followers",
+        "page_likes",
+        "shares",
+        "post_engagement"
+      ]
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "logo": "💼",
+      "color": "#0A66C2",
+      "enabled": true,
+      "metrics": [
+        "impressions",
+        "engagement_rate",
+        "followers",
+        "shares",
+        "comments",
+        "clicks"
+      ]
+    },
+    {
+      "id": "twitter",
+      "name": "X/Twitter",
+      "logo": "𝕏",
+      "color": "#1A1611",
+      "enabled": true,
+      "metrics": [
+        "impressions",
+        "engagement_rate",
+        "followers",
+        "retweets",
+        "likes",
+        "replies"
+      ]
+    }
+  ],
+  "updateFrequency": "6h",
+  "timezone": "UTC"
+}

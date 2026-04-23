@@ -1,0 +1,96 @@
+{
+  "kpis": {
+    "total_reach": {
+      "label": "Total Reach",
+      "description": "Total number of people reached across all platforms",
+      "unit": "people",
+      "icon": "👥",
+      "color": "#2B6B6B",
+      "target": 1500000,
+      "minimum": 500000
+    },
+    "engagement_rate": {
+      "label": "Engagement Rate",
+      "description": "Average engagement rate across all content",
+      "unit": "%",
+      "icon": "💬",
+      "color": "#C5522A",
+      "target": 5,
+      "minimum": 2
+    },
+    "content_velocity": {
+      "label": "Content Pieces",
+      "description": "Number of content pieces published",
+      "unit": "pieces",
+      "icon": "📸",
+      "color": "#E1306C",
+      "target": 30,
+      "minimum": 10
+    },
+    "follower_growth": {
+      "label": "Growth",
+      "description": "New followers gained this period",
+      "unit": "followers",
+      "icon": "⬆️",
+      "color": "#2E7D52",
+      "target": 200,
+      "minimum": 50
+    }
+  },
+  "platformGoals": {
+    "youtube": {
+      "views_per_video": 10000,
+      "watch_time_hours": 100,
+      "subscriber_growth": 50,
+      "ctr": 5,
+      "engagement_rate": 3
+    },
+    "tiktok": {
+      "views_per_video": 50000,
+      "engagement_rate": 8,
+      "follower_growth": 100,
+      "video_plays": 200000
+    },
+    "instagram": {
+      "reach_per_post": 20000,
+      "engagement_rate": 4,
+      "follower_growth": 50,
+      "saves_per_post": 100
+    },
+    "facebook": {
+      "reach_per_post": 15000,
+      "engagement_rate": 2,
+      "follower_growth": 30
+    },
+    "linkedin": {
+      "impressions": 5000,
+      "engagement_rate": 3,
+      "follower_growth": 20
+    },
+    "twitter": {
+      "impressions": 3000,
+      "engagement_rate": 2,
+      "follower_growth": 10
+    }
+  },
+  "alerts": {
+    "reach_decline": {
+      "threshold": 30,
+      "type": "percentage",
+      "severity": "high",
+      "message": "Reach declined by more than {threshold}%"
+    },
+    "low_engagement": {
+      "threshold": 2,
+      "type": "percentage",
+      "severity": "medium",
+      "message": "Engagement rate below {threshold}%"
+    },
+    "no_activity": {
+      "threshold": 7,
+      "type": "days",
+      "severity": "high",
+      "message": "No content published in {threshold} days"
+    }
+  }
+}
