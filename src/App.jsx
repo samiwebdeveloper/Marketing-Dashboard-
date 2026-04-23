@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { MetricCard, Card, CardHeader, PlatformBadge, InsightCard, Button } from './dashboard/components';
+import { PlatformDetail } from './dashboard/pages/PlatformDetail';
+import { ContentPerformance } from './dashboard/pages/ContentPerformance';
+import { ExecutiveSummary } from './dashboard/pages/ExecutiveSummary';
 import { T, PLATFORMS } from './styles/theme';
 import './styles/index.css';
 import './App.css';
@@ -67,8 +70,8 @@ function App() {
       <main className="app-main">
         {activeTab === 'overview' && <OverviewTab />}
         {activeTab === 'platforms' && <PlatformsTab />}
-        {activeTab === 'content' && <ContentTab />}
-        {activeTab === 'insights' && <InsightsTab />}
+        {activeTab === 'content' && <ContentPerformance />}
+        {activeTab === 'insights' && <ExecutiveSummary />}
       </main>
     </div>
   );
@@ -152,6 +155,31 @@ function OverviewTab() {
 }
 
 function PlatformsTab() {
+  const [selectedPlatform, setSelectedPlatform] = useState(null);
+
+  if (selectedPlatform) {
+    return (
+      <section>
+        <button
+          onClick={() => setSelectedPlatform(null)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: T.coral,
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '600',
+            marginBottom: '16px',
+            padding: 0,
+          }}
+        >
+          ← Back to Platforms
+        </button>
+        <PlatformDetail platformId={selectedPlatform} />
+      </section>
+    );
+  }
+
   return (
     <section className="section">
       <div className="section-header">
@@ -160,81 +188,41 @@ function PlatformsTab() {
 
       <div className="platforms-grid">
         {Object.entries(PLATFORMS).map(([key, config]) => (
-          <Card
+          <div
             key={key}
-            className="platform-card"
-            style={{ borderTopColor: config.color, borderTopWidth: '3px' }}
+            onClick={() => setSelectedPlatform(key)}
+            style={{ cursor: 'pointer' }}
           >
-            <CardHeader
-              title={
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>{config.logo}</span>
-                  {config.name}
+            <Card
+              className="platform-card"
+              style={{ borderTopColor: config.color, borderTopWidth: '3px' }}
+            >
+              <CardHeader
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>{config.logo}</span>
+                    {config.name}
+                  </div>
+                }
+              />
+              <div style={{ paddingLeft: '16px', paddingRight: '16px', paddingBottom: '16px' }}>
+                <div style={{ marginBottom: '16px' }}>
+                  <p style={{ color: T.muted, fontSize: '12px', marginBottom: '4px' }}>
+                    Views This Week
+                  </p>
+                  <p style={{ fontSize: '24px', fontWeight: '700', color: T.ink }}>
+                    {Math.floor(Math.random() * 500000).toLocaleString()}
+                  </p>
                 </div>
-              }
-            />
-            <div style={{ paddingLeft: '16px', paddingRight: '16px', paddingBottom: '16px' }}>
-              <div style={{ marginBottom: '16px' }}>
-                <p style={{ color: T.muted, fontSize: '12px', marginBottom: '4px' }}>
-                  Views This Week
-                </p>
-                <p style={{ fontSize: '24px', fontWeight: '700', color: T.ink }}>
-                  {Math.floor(Math.random() * 500000).toLocaleString()}
-                </p>
+                <PlatformBadge platform={key} size="md" />
               </div>
-              <PlatformBadge platform={key} size="md" />
-            </div>
-          </Card>
+            </Card>
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
-function ContentTab() {
-  return (
-    <section className="section">
-      <div className="section-header">
-        <h2>Content Performance</h2>
-      </div>
-      <Card>
-        <CardHeader title="Top Performing Content" />
-        <div style={{ padding: '16px' }}>
-          <p style={{ color: T.muted }}>Content performance data will load from analytics files</p>
-        </div>
-      </Card>
-    </section>
-  );
-}
-
-function InsightsTab() {
-  return (
-    <section className="section">
-      <div className="section-header">
-        <h2>Strategic Insights</h2>
-      </div>
-
-      <div className="insights-grid">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <InsightCard
-            key={i}
-            icon={['🎯', '📈', '⚡', '💰', '🚀'][i]}
-            title={
-              [
-                'Performance Alert',
-                'Growth Opportunity',
-                'Strategy Recommendation',
-                'ROI Analysis',
-                'Trend Alert',
-              ][i]
-            }
-            insight="AI-powered insight will be generated based on your analytics data and historical trends."
-            confidence={['high', 'medium', 'high', 'low', 'medium'][i]}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
 
 export default App;
