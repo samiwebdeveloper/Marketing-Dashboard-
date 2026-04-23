@@ -10,33 +10,80 @@ import requests
 
 
 class WindsorConnector:
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, base_url: Optional[str] = None):
         """
         Initialize Windsor API connector.
 
         Args:
             api_key: Windsor API key. If None, reads from WINDSOR_API_KEY env var.
+            base_url: Custom base URL. Default: https://connectors.windsor.ai
         """
         self.api_key = api_key or os.getenv('WINDSOR_API_KEY')
         if not self.api_key:
             raise ValueError('WINDSOR_API_KEY not provided')
 
-        self.base_url = 'https://api.windsor.io/v1'
+        # Use custom base URL or Windsor connectors endpoint
+        self.base_url = base_url or os.getenv('WINDSOR_BASE_URL', 'https://connectors.windsor.ai')
+
         self.session = requests.Session()
+
+        # Try different authentication methods
         self.session.headers.update({
-            'Authorization': f'Bearer {self.api_key}',
             'Content-Type': 'application/json'
         })
 
+        # Test which auth method works
+        self._auth_method = self._detect_auth_method()
+
+    def _detect_auth_method(self) -> str:
+        """Detect which authentication method Windsor accepts."""
+        auth_methods = [
+            ('Bearer', {'Authorization': f'Bearer {self.api_key}'}),
+            ('API Key Header', {'X-API-Key': self.api_key}),
+            ('Query Param', {}),  # Will be added to URL
+        ]
+
+        for method_name, headers in auth_methods:
+            try:
+                test_headers = self.session.headers.copy()
+                test_headers.update(headers)
+                # Try a simple test endpoint
+                response = requests.get(
+                    f'{self.base_url}/',
+                    headers=test_headers,
+                    timeout=5
+                )
+                if response.status_code != 401:
+                    print(f'✓ Using {method_name} authentication')
+                    self.session.headers.update(headers)
+                    return method_name
+            except:
+                continue
+
+        print('⚠ Could not auto-detect auth method, using Bearer token')
+        self.session.headers['Authorization'] = f'Bearer {self.api_key}'
+        return 'Bearer'
+
     def fetch_youtube_metrics(self) -> Dict:
-        """Fetch YouTube channel metrics via Windsor."""
-        try:
-            response = self.session.get(f'{self.base_url}/youtube/channels')
-            response.raise_for_status()
-            return self._format_response(response.json(), 'youtube')
-        except Exception as e:
-            print(f'Error fetching YouTube metrics: {e}')
-            return {}
+        """Fetch YouTube metrics via Windsor."""
+        endpoints_to_try = [
+            f'{self.base_url}/youtube_analytics',
+            f'{self.base_url}/youtube',
+            f'{self.base_url}/connectors/youtube',
+            f'{self.base_url}/data?connector=youtube',
+        ]
+
+        for endpoint in endpoints_to_try:
+            try:
+                response = self.session.get(endpoint, timeout=10)
+                if response.status_code == 200:
+                    print(f'✓ YouTube endpoint found: {endpoint}')
+                    return self._format_response(response.json(), 'youtube')
+            except Exception as e:
+                continue
+
+        print(f'⚠ Could not fetch YouTube metrics (tried {len(endpoints_to_try)} endpoints)')
+        return {}
 
     def fetch_tiktok_metrics(self) -> Dict:
         """Fetch TikTok account metrics via Windsor."""
