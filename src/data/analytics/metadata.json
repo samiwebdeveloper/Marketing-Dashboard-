@@ -1,0 +1,13 @@
+{
+  "last_update": "2026-04-23T20:48:27.071596",
+  "results": {
+    "youtube": true,
+    "tiktok": true,
+    "instagram": true,
+    "facebook": true,
+    "linkedin": true,
+    "twitter": true
+  },
+  "schema_version": "1.0",
+  "note": "Mock data for testing"
+}

@@ -1,0 +1,17 @@
+{
+  "platform": "twitter",
+  "updates": [
+    {
+      "timestamp": "2026-04-23T20:48:27.071551",
+      "metrics": {
+        "views": 125000,
+        "engagement_rate": 4.5,
+        "followers": 50000,
+        "growth": 150,
+        "watch_time_hours": 2500,
+        "impressions": 250000,
+        "clicks": 5000
+      }
+    }
+  ]
+}
